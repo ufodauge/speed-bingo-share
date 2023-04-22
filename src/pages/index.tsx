@@ -9,11 +9,6 @@ const Home = () => {
     <ThemeWrapper>
       <AppHeader />
       <MainBoard />
-
-      <input type="checkbox" id="base-modal" className="modal-toggle" />
-      <label htmlFor="base-modal" className="modal">
-        <label className="modal-box relative" htmlFor=""></label>
-      </label>
     </ThemeWrapper>
   );
 };

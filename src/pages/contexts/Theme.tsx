@@ -56,13 +56,12 @@ const ThemeWrapper: React.FC<Props> = ({ children }) => {
             );
             setTheme(ThemeNames[themeIndex]);
           },
-          setTheme: (v) => {
-            setTheme(v);
-            console.log(v);
-          },
+          setTheme
         }}
       >
-        <div data-theme={theme}>{children}</div>
+        <div data-theme={theme}>
+          {children}
+        </div>
       </ThemeAction.Provider>
     </ThemeValue.Provider>
   );
