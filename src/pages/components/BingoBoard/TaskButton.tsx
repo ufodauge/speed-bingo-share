@@ -1,6 +1,12 @@
 import { useContext, useState } from "react";
-import { LineType, TileShape } from "@/lib/types";
+
 import { BoardValuesContext } from "@/pages/contexts/BingoBoard";
+import { LineType } from "@/types/lineType";
+import { TileShape } from "@/types/tileShape";
+
+import Button from "./Button";
+import { MouseButton } from "@/const/mouseButton";
+
 const HighlightColors = [
   "btn-ghost",
   "btn-color-1",
@@ -8,30 +14,31 @@ const HighlightColors = [
   "btn-color-3",
 ];
 
-interface TaskButtonProps {
+type Props = {
   lineTypes: LineType[];
   text: string;
-  tileShape: TileShape;
-}
+};
 
-export default function TaskButton(props: TaskButtonProps) {
-  const { lineTypes, text } = props;
-
+export default function TaskButton({ lineTypes, text }: Props) {
   const { targetedLine } = useContext(BoardValuesContext);
 
   const [highlightTypeIndex, setHighlightTypeIndex] = useState(0);
+
+  const htNext = () =>
+    setHighlightTypeIndex((highlightTypeIndex + 1) % HighlightColors.length);
+  const htPrev = () =>
+    setHighlightTypeIndex(
+      (highlightTypeIndex + HighlightColors.length - 1) % HighlightColors.length
+    );
 
   const toggleHighlightTypeIndex: React.MouseEventHandler<HTMLButtonElement> = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (e.button === 0) {
-      setHighlightTypeIndex((highlightTypeIndex + 1) % HighlightColors.length);
-    } else if (e.button === 2) {
-      setHighlightTypeIndex(
-        (highlightTypeIndex + HighlightColors.length - 1) %
-          HighlightColors.length
-      );
+    if (e.button === MouseButton.Primary) {
+      htNext();
+    } else if (e.button === MouseButton.Secondary) {
+      htPrev();
     }
   };
 
@@ -40,20 +47,17 @@ export default function TaskButton(props: TaskButtonProps) {
       ? "ring-1 ring-info ring-opacity-30"
       : "";
 
-  const tailwindClass = "btn btn-square no-animation h-auto w-auto";
-
   const highlightTypeClass = `${HighlightColors[highlightTypeIndex]} ${targetedClass}`;
 
-  const className = `${tailwindClass} ${highlightTypeClass}`;
+  const className = `btn btn-square no-animation w-32 h-32 ${highlightTypeClass}`;
 
   return (
-    <button
-      type="button"
+    <Button
       className={className}
       onClick={toggleHighlightTypeIndex}
       onContextMenu={toggleHighlightTypeIndex}
     >
       <p suppressHydrationWarning>{text}</p>
-    </button>
+    </Button>
   );
 }

@@ -2,29 +2,33 @@ import data from "@/data/data.json";
 import { Tracker } from "@/types/tracker";
 
 class TaskData {
-  title: string;
-  size: number;
-  lang: string[];
-  description: string;
-  version: {
+  readonly title: string;
+  readonly size: number;
+  readonly lang: string[];
+  readonly description: { [key: string]: string };
+  readonly version: {
     major: number;
     minor: number;
     revision: number;
   };
-  data: {
+  readonly data: {
     difficulty: number;
     contents: { [key: string]: string };
     trackers?: Tracker[];
+    tag?: string[];
   }[];
 
-  // TODO これでええんか？
   constructor(data: any) {
-    this.title = data.title;
-    this.size = data.size;
-    this.lang = data.lang;
-    this.description = data.description;
-    this.version = data.version;
-    this.data = data.data;
+    this.title = data.title ?? "";
+    this.size = Math.floor(data.size ?? 5);
+    this.lang = data.lang ?? ["en"];
+    this.description = data.description ?? { en: "" };
+    this.data = data.data ?? [];
+    this.version = data.version ?? {
+      major: 0,
+      minor: 0,
+      revision: 0,
+    };
   }
 }
 

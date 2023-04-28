@@ -1,7 +1,8 @@
-import Task from "@/class/Task";
-import { taskData } from "@/const/TaskData";
-import { LayoutName } from "@/types/layout";
-import TaskButton from "./TaskButton";
+import { taskData } from '@/const/TaskData';
+import { LayoutName } from '@/types/layout';
+import { Task } from '@/types/task';
+
+import TaskButton from './TaskButton';
 
 type Props = {
   tasks: Task[];

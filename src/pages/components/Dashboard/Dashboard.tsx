@@ -2,12 +2,13 @@ import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 
 import data from "@/data/data.json";
+import { Encode } from "@/lib/encoder";
 import {
   BoardActionsContext,
   BoardValuesContext,
 } from "@/pages/contexts/BingoBoard";
 import { ThemeValue } from "@/pages/contexts/Theme";
-import { Encode } from "@/lib/encoder";
+import { taskData } from "@/const/TaskData";
 
 export default function Dashboard() {
   const { seed, lang } = useContext(BoardValuesContext);
@@ -142,6 +143,12 @@ export default function Dashboard() {
           <input
             type="datetime-local"
             className="w-full max-w-xs input input-bordered"
+            defaultValue={(() => {
+              const now = new Date();
+              now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+              now.setSeconds(now.getSeconds() + 300);
+              return now.toISOString().slice(0, -8);
+            })()}
             onChange={(v) =>
               setPublishTime(
                 v.target.valueAsNumber + new Date().getTimezoneOffset() * 60000
@@ -158,7 +165,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        <div>{data.description}</div>
+        <div>{taskData.description[lang]}</div>
       </div>
     </React.Fragment>
   );

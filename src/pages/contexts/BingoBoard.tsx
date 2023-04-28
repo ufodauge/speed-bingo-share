@@ -1,16 +1,17 @@
-import assert from 'assert';
-import { useRouter } from 'next/router';
-import { createContext, FC, ReactNode, useEffect, useState } from 'react';
+import assert from "assert";
+import { useRouter } from "next/router";
+import { createContext, FC, ReactNode, useEffect, useState } from "react";
 
-import TaskGenerator, { GeneratedTask } from '@/class/TaskGenerator';
-import { DefaultLanguage } from '@/const/language';
-import { taskData } from '@/const/TaskData';
-import { LineType } from '@/lib/types';
+import TaskGenerator from "@/class/TaskGenerator";
+import { DefaultLanguage } from "@/const/language";
+import { taskData } from "@/const/TaskData";
+import { LineType } from "@/types/lineType";
+import { Task } from "@/types/task";
 
 type BoardValuesProps = {
   seed: number;
   lang: string;
-  tasks: GeneratedTask[];
+  tasks: Task[];
   targetedLine?: LineType;
 };
 
@@ -41,18 +42,22 @@ type Props = {
 const BingoBoardWrapper: FC<Props> = ({ children }: Props) => {
   const router = useRouter();
   const query = router.query;
-  
+
   const [seed, setSeed] = useState(0);
   const [lang, setLanguage] = useState("en");
   const [tasks, setTasks] = useState(TaskGenerator(0, "en"));
 
-  const updateTasks = (s: number, l: string) => setTasks(TaskGenerator(s, l));
+  const updateTasks = (seed: number, lang: string) =>
+    setTasks(TaskGenerator(seed, lang));
 
   const [targetedLine, setTargetedLine] = useState<LineType | undefined>();
   const updateTargetedLine = (lineType?: LineType) => {
     setTargetedLine(lineType);
   };
 
+  /**
+   * on mounted
+   */
   useEffect(() => {
     if (!router.isReady) return;
 

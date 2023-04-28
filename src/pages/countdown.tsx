@@ -66,7 +66,7 @@ const Home = () => {
       <div className="hero min-h-screen">
         <div className="hero-content text-center">
           <h1 className="text-5xl font-bold">
-            {countdown ? <p>{countdown}</p> : <p>Invalid time</p>}
+            {countdown ? <p>{countdown}</p> : <></>}
           </h1>
         </div>
       </div>

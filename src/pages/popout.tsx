@@ -1,15 +1,15 @@
-import assert from 'assert';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import assert from "assert";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
-import Task from '@/class/Task';
-import { DefaultLanguage } from '@/const/language';
-import { taskData } from '@/const/TaskData';
-import { isLayoutName, LayoutName } from '@/types/layout';
+import { DefaultLanguage } from "@/const/language";
+import { taskData } from "@/const/TaskData";
+import { isLayoutName, LayoutName } from "@/types/layout";
+import { Task } from "@/types/task";
 
-import TargetedCardWindowHeader from './components/TargetCardWindow/Header';
-import TaskButtons from './components/TargetCardWindow/TaskButtons';
-import ThemeWrapper from './contexts/Theme';
+import TargetedCardWindowHeader from "./components/TargetCardWindow/Header";
+import TaskButtons from "./components/TargetCardWindow/TaskButtons";
+import ThemeWrapper from "./contexts/Theme";
 
 // /popout?taskIndex=0;1;2;3;4;5&lang=en&layout=horizontal&header=col1&theme=dark
 export default function TargetedCardWindow() {
@@ -37,17 +37,18 @@ export default function TargetedCardWindow() {
     const lang: string = query.lang ?? DefaultLanguage;
 
     setTasks(
-      query.taskIndex
-        ?.split(";")
-        .map((v) => {
-          const result = taskData.data[Number(v)];
-          assert(result);
-          return { ...result, index: Number(v) };
-        })
-        .map((v, i) => {
-          const text = v.contents[lang];
-          return new Task(v.index, v.difficulty, text, 0, v.trackers);
-        }) ?? [new Task(0, 0, "Error", 0)]
+      query.taskIndex?.split(";").map((v) => {
+        const result = taskData.data[Number(v)];
+        assert(result);
+        return {
+          index: Number(v),
+          difficulty: result.difficulty,
+          text: result.contents[lang],
+          filter: 0,
+          lineTypes: [],
+          trackers: result.trackers ?? [],
+        };
+      }) ?? []
     );
 
     const layoutName: string | undefined = query.layout;

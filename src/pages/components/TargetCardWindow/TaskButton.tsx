@@ -1,17 +1,12 @@
-import assert from "assert";
-import { useState } from "react";
+import assert from 'assert';
+import { useState } from 'react';
 
-import { MouseButton } from "@/const/mouseButton";
-import { taskData } from "@/const/TaskData";
-import {
-  isCounterTrackerProps,
-  isTogglerTrackerProps,
-  isTrackerName,
-} from "@/types/tracker";
+import { MouseButton } from '@/const/mouseButton';
+import { Task } from '@/types/task';
+import { isCounterTrackerProps, isTogglerTrackerProps, isTrackerName } from '@/types/tracker';
 
-import Counter from "./Tracker/Counter";
-import Toggler from "./Tracker/Toggler";
-import Task from "@/class/Task";
+import Counter from './Tracker/Counter';
+import Toggler from './Tracker/Toggler';
 
 const HighlightColors = ["btn-ghost", "btn-color-1", "btn-color-2"];
 
@@ -20,7 +15,14 @@ type TargetedCardWindowTaskProps = {
 };
 
 export default function TargetedCardWindowTask({
-  task = new Task(0, 0, "null", 0),
+  task = {
+    index: 0,
+    difficulty: 0,
+    text: "null",
+    filter: 0,
+    lineTypes: [],
+    trackers: [],
+  },
 }: TargetedCardWindowTaskProps) {
   const [highlightColorIndex, setHighlightColorIndex] = useState(0);
   const toggleHighlightColor: React.MouseEventHandler<HTMLDivElement> = (

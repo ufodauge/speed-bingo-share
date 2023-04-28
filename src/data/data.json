@@ -2,7 +2,10 @@
   "title": "MM Bingo",
   "size": 5,
   "lang": ["ja", "en"],
-  "description": "description is here.",
+  "description": {
+    "ja": "説明文が入ります。",
+    "en": "description is here."
+  },
   "version": {
     "major": 0,
     "minor": 0,

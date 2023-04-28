@@ -1,45 +1,44 @@
+import { Task } from "@/types/task";
 import { Tracker } from "@/types/tracker";
-import Task from "./Task";
 
-type TaskListInterface = {
+type TaskListProps = {
   difficulty: number;
   contents: { [key: string]: string };
   trackers?: Tracker[];
-  tags?: Array<string>;
+  tags?: string[];
 };
 
 export default class TaskList {
   private tasks: Task[];
   private tagList: string[];
 
-  constructor(taskList: TaskListInterface[], lang: string) {
+  constructor(taskData: TaskListProps[], lang: string) {
     this.tasks = [];
     this.tagList = [];
 
-    taskList.forEach((taskInfo, i) => {
+    taskData.forEach((taskInfo, i) => {
       taskInfo.tags?.forEach((v) => {
         if (!this.tagList.includes(v)) {
           this.tagList.push(v);
         }
       });
 
-      let filter = 0b0;
-      this.tagList.forEach((v, i) => {
-        filter += taskInfo.tags?.includes(v) ? 0b1 << i : 0b0;
-      });
-
-      this.tasks.push(
-        new Task(
-          i,
-          taskInfo.difficulty,
-          taskInfo.contents[lang],
-          filter,
-          taskInfo.trackers
-        )
+      const filter = this.tagList.reduce(
+        (prev, v) => prev + (taskInfo.tags?.includes(v) ? 0b1 << i : 0b0),
+        0b0
       );
+
+      this.tasks.push({
+        index: i,
+        difficulty: taskInfo.difficulty,
+        text: taskInfo.contents[lang],
+        filter,
+        lineTypes: [],
+        trackers: taskInfo.trackers ?? [],
+      });
     });
   }
 
-  chooseTasksByDifficulty = (difficulty: number): Task[] =>
+  getTasksByDifficulty = (difficulty: number): Task[] =>
     this.tasks.filter((v) => v.difficulty === difficulty);
 }

@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 
-import { ThemeName, ThemeNames, isThemeName } from "@/types/theme";
+import { ThemeName, ThemeNames, isThemeName } from "@/types/theme/theme";
 import assert from "assert";
 import { useRouter } from "next/router";
 

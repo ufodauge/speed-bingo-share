@@ -1,14 +1,38 @@
+import { Task } from "@/types/task";
+
 import Random from "./Random";
-import Task from "./Task";
+import { LineType } from "@/types/lineType";
 
 export default class MagicSquare {
-  private seed: number;
+  /**
+   * the board size ( 5x5 magic square -> size = 5 )
+   * size >= 3
+   */
   private size: number;
+
+  /**
+   * magic square
+   */
   private magicSquare: number[];
+
+  /**
+   * checker of if any tasks have same tag in a same row.
+   */
   private checkList: { [key: string]: number };
 
+  /**
+   *
+   */
+  private random: Random;
+
   constructor(size: number, seed: number) {
-    this.seed = seed;
+    if (size % 2 === 0) {
+      throw new Error("Currently the board size must be odd number.");
+    }
+    if (size <= 2) {
+      throw new Error("The board size must be larger than 2.");
+    }
+
     this.size = size;
 
     this.checkList = { bltr: 0b0, tlbr: 0b0 };
@@ -17,78 +41,67 @@ export default class MagicSquare {
       this.checkList[`row${i + 1}`] = 0b0;
     }
 
-    if (size % 2 === 0) {
-      Error("Currently the board size must be odd number.");
-    }
+    this.random = new Random(seed);
 
-    this.magicSquare = [...Array<number>(this.size * this.size)];
-    this.generate();
+    // this.magicSquare = [...Array<number>(this.size * this.size)];
+    // this.generate();
+    this.magicSquare = this.generateMagicSquare();
+    this.assertMagicSquare();
   }
 
-  generate = () => {
-    if (this.size === 2) {
-      console.warn("There's no magic square of size 2.");
-      this.generateOddMS();
-    } else if (this.size % 2 === 0) {
-      console.warn(
-        "The board size is currently recommended to be [3, 5, 7]."
-      );
-      this.generateOddMS();
+  private generateMagicSquare = (): number[] => {
+    if (this.size % 2 === 0) {
+      // this.generateOddMS();
+      throw new Error("Currently the board size doesn't supported.");
     } else if (this.size === 3) {
-      this.generate3x3MS();
+      return this.generate3x3MS();
     } else {
-      // console.log("The board size is currently recommended to be [3, 5, 7].");
-      this.generateOddMS();
+      return this.generateOddMS();
     }
   };
 
-  generate3x3MS = () => {
-    // this is the only way to build 3x3 magic square.
-    this.magicSquare = [
-      7, 0, 5,
-      2, 4, 6,
-      3, 8, 1
-    ];
-
-    this.assertMagicSquare();
+  private generate3x3MS = (): number[] => {
+    // this is the only way to represent 3x3 magic square.
+    return [7, 0, 5, 2, 4, 6, 3, 8, 1];
   };
 
-  generateOddMS = () => {
-    // init
-    const random = new Random(this.seed);
-
-    const shuffleArray = (array: Array<any>) => {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = random.nextInt(0, i);
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    };
-
+  private generateOddMS = (): number[] => {
     const muls = [...Array<number>(this.size)].map((_, i) => this.size * i);
     const mods = [...Array<number>(this.size)].map((_, i) => i);
 
-    shuffleArray(muls);
-    shuffleArray(mods);
+    this.shuffleArray(muls);
+    this.shuffleArray(mods);
 
-    this.magicSquare.forEach((_, i) => {
+    return [...Array(this.size ** 2)].map((_, i) => {
       const x = Math.floor(i / this.size);
       const y = i % this.size;
 
-      this.magicSquare[i] =
-        muls[(x * 3 + y) % this.size] + mods[(y * 3 + x) % this.size];
+      return muls[(x * 3 + y) % this.size] + mods[(y * 3 + x) % this.size];
     });
-
-    this.assertMagicSquare();
   };
 
-  generateEvenMS = () => {};
+  // generateEvenMS = () => {};
 
-  assignTask = (tasks: Task[], pos: number): Task =>
-    tasks.find((task) => this.checkFilter(task.filter, pos)) ||
-    new Task(pos, this.getDifficulty(pos), "Error!", 0);
+  /**
+   * return task or error task if some tasks are assignable.
+   */
+  getAssignableTask = (tasks: Task[], pos: number): Task =>
+    this.shuffleArray(tasks).find((task) =>
+      this.checkFilter(task.filter, pos)
+    ) || {
+      index: pos,
+      difficulty: this.getDifficulty(pos),
+      text: "Error!",
+      filter: 0,
+      lineTypes: [],
+      trackers: [],
+    };
 
-  getRowsByPosition = (pos: number): string[] => {
-    const rows: string[] = [
+  /**
+   * get row's labels by position
+   */
+  getRowsByPosition = (pos: number): LineType[] => {
+    const rows: LineType[] = [
       `row${Math.floor(pos / this.size)}`,
       `col${pos % this.size}`,
     ];
@@ -107,57 +120,95 @@ export default class MagicSquare {
     return rows;
   };
 
-  checkFilter = (filter: number, pos: number): boolean =>
-    this.rowsCheck(filter, this.getRowsByPosition(pos));
+  /**
+   *
+   */
+  checkFilter = (filter: number, pos: number): boolean => {
+    return this.getRowsByPosition(pos).every(
+      (v) => (this.checkList[v] & filter) === 0b0
+    );
+  };
 
-  rowsCheck = (filter: number, rows: string[]): boolean =>
-    rows.every((v) => (this.checkList[v] & filter) === 0b0);
+  /**
+   * update filter of the position
+   */
+  updateFilter = (filter: number, pos: number) => {
+    this.getRowsByPosition(pos).forEach((v) => (this.checkList[v] &= filter));
+  };
 
-  updateFilter = (filter: number, pos: number) =>
-    this.rowsUpdate(filter, this.getRowsByPosition(pos));
-
-  rowsUpdate = (filter: number, rows: string[]) =>
-    rows.forEach((v) => (this.checkList[v] &= filter));
-
+  /**
+   * Get difficulty by the position
+   */
   getDifficulty = (pos: number): number => this.magicSquare[pos] + 1;
 
-  assertMagicSquare = () => {
-    const _magicSquare2d: number[][] = [];
+  private shuffleArray = (array: any[]): any[] => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = this.random.nextInt(0, i);
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
 
-    this.magicSquare.forEach((_, i) => {
-      const x = i % this.size;
-      const y = Math.floor(i / this.size);
-      _magicSquare2d[y] = _magicSquare2d[y] || [];
-      _magicSquare2d[y][x] = this.magicSquare[i];
-    });
+  /**
+   * Asserts generated magic square is ok
+   */
+  private assertMagicSquare = (): this is MagicSquare => {
+    const ms2d: number[][] = this.magicSquare.reduce<number[][]>(
+      (acc, current, i) => {
+        const x = i % this.size;
+        const y = Math.floor(i / this.size);
 
-    // console.log(_magicSquare2d);
+        acc[y] = acc[y] || [];
+        acc[y][x] = current;
 
-    const target = ((this.size * this.size + 1) * this.size) / 2 - this.size;
+        return acc;
+      },
+      []
+    );
+
+    const targetValue =
+      ((this.size * this.size + 1) * this.size) / 2 - this.size;
 
     let bltr = 0,
       tlbr = 0;
-    for (let i = 0; i < _magicSquare2d.length; i++) {
+    for (let i = 0; i < ms2d.length; i++) {
       let a = 0,
         b = 0;
-      for (let j = 0; j < _magicSquare2d[i].length; j++) {
-        a += _magicSquare2d[i][j];
-        b += _magicSquare2d[j][i];
+      for (let j = 0; j < ms2d[i].length; j++) {
+        a += ms2d[i][j];
+        b += ms2d[j][i];
       }
-      tlbr += _magicSquare2d[i][i];
-      bltr += _magicSquare2d[_magicSquare2d.length - i - 1][i];
+      tlbr += ms2d[i][i];
+      bltr += ms2d[ms2d.length - i - 1][i];
 
-      console.assert(
-        a === target,
-        `row${i}, expect ${target}, but the sum of the row ${a}`
-      );
-      console.assert(
-        b === target,
-        `col${i}, expect ${target}, but the sum of the row ${b}`
-      );
+      if (a === targetValue) {
+        console.error(
+          `row${i}, expect ${targetValue}, but the sum of the row ${a}`
+        );
+        return false;
+      }
+      if (b === targetValue) {
+        console.error(
+          `col${i}, expect ${targetValue}, but the sum of the row ${b}`
+        );
+        return false;
+      }
     }
 
-    console.assert(tlbr === target);
-    console.assert(bltr === target);
+    if (tlbr === targetValue) {
+      console.error(
+        `tlbr, expect ${targetValue}, but the sum of the row ${tlbr}`
+      );
+      return false;
+    }
+
+    if (bltr === targetValue) {
+      console.error(
+        `bltr, expect ${targetValue}, but the sum of the row ${bltr}`
+      );
+      return false;
+    }
+
+    return true;
   };
 }

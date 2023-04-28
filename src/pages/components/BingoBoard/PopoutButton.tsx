@@ -1,40 +1,22 @@
-import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext } from 'react';
 
-import { GeneratedTask } from "@/class/TaskGenerator";
-import { LineType, TileShape } from "@/lib/types";
-import {
-  BoardActionsContext,
-  BoardValuesContext,
-} from "@/pages/contexts/BingoBoard";
-import { ThemeValue } from "@/pages/contexts/Theme";
-import { Tracker } from "@/types/tracker";
+import { CalcPopupWindowFeatures } from '@/lib/calcPopupWindowFeatures';
+import { BoardActionsContext, BoardValuesContext } from '@/pages/contexts/BingoBoard';
+import { ThemeValue } from '@/pages/contexts/Theme';
+import { LineType } from '@/types/lineType';
+import { Task } from '@/types/task';
 
-type PopoutButtonProps = {
+import Button from './Button';
+
+type Props = {
   lineType: LineType;
-  text: string;
-  tileShape: TileShape;
-  targetTasks: GeneratedTask[];
-  disablePopout?: boolean;
+  targetTasks: Task[];
 };
 
-export type TaskCell = {
-  text: string;
-  trackers?: Tracker[];
-};
-
-export default function PopoutButton({
-  lineType,
-  text,
-  tileShape,
-  targetTasks = [],
-  disablePopout,
-}: PopoutButtonProps) {
+export default function PopoutButton({ lineType, targetTasks = [] }: Props) {
   const { updateTargetedLine } = useContext(BoardActionsContext);
   const { lang } = useContext(BoardValuesContext);
   const { theme } = useContext(ThemeValue);
-
-  const router = useRouter();
 
   const url = "/popout";
   const params: { [key: string]: string } = {
@@ -44,37 +26,45 @@ export default function PopoutButton({
     lang,
     theme,
   };
-  const title = "_blank";
-  const features =
-    (lineType === "card" ? "width=640,height=680" : "width=240,height=520") +
-    ",noopener,noreferrer";
+  const features = CalcPopupWindowFeatures(
+    lineType === "card" ? "card" : "vertical"
+  );
 
-  const onClick = () => {
-    if (disablePopout) {
-      return;
-    }
-
+  const onClick = () =>
     window.open(
       `${url}?${Object.keys(params)
         .map((v) => `${v}=${params[v]}`)
         .join("&")}`,
-      title,
+      "_blank",
       features
     );
+
+  const sizePatcher = () => {
+    if (lineType === "bltr" || lineType === "tlbr") {
+      return "w-14 h-14";
+    } else if (lineType.match(/col\d+/)) {
+      return "w-32 h-14";
+    } else if (lineType.match(/row\d+/)) {
+      return "w-14 h-32";
+    } else if (lineType === "card") {
+      return "flex-grow h-14";
+    }
+    return "w-32 h-32";
   };
 
-  const tailwindClass = `btn btn-square h-auto w-auto`;
-  const className = `${tailwindClass} ${tileShape}`;
+  const className = `btn btn-square ${sizePatcher()}`;
+
+  const onMouseOver = () => updateTargetedLine(lineType);
+  const onMouseOut = () => updateTargetedLine();
 
   return (
-    <button
-      type="button"
+    <Button
       className={className}
-      onMouseOver={() => updateTargetedLine(lineType)}
-      onMouseOut={() => updateTargetedLine()}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
       onClick={onClick}
     >
-      <p>{text}</p>
-    </button>
+      <p>{lineType}</p>
+    </Button>
   );
 }
