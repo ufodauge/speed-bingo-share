@@ -16,13 +16,14 @@ const ThemeToggler: React.FC<Props> = () => {
   const customStyle = css({
     height: "3rem",
     width: "3rem",
-    borderRadius: "9999px"
+    borderRadius: "9999px",
   });
 
   return (
     <Button
       customProps={customProps}
       customStyle={customStyle}
+      ghost
     >
       <MdiThemeLightDark width="2em" height="2em" />
     </Button>

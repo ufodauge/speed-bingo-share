@@ -8,7 +8,7 @@ const Title: React.FC<Props> = ({ text }) => {
   const style = css({
     fontSize: "x-large",
     fontWeight: "bold",
-    color: theme.neutralContent,
+    color: theme.baseContent,
     transitionProperty: "color",
     transitionDuration: "0.2s",
     transitionTimingFunction: "ease-in-out",

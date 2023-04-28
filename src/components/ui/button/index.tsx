@@ -5,6 +5,7 @@ import { hexToHsl } from "@/lib/utils/colorConversion";
 type Props = {
   customProps: ButtonHTMLAttributes<HTMLButtonElement>;
   outlined?: boolean;
+  ghost?: boolean;
   children?: ReactNode;
   customStyle?: SerializedStyles;
 };
@@ -13,6 +14,7 @@ const Button: React.FC<Props> = ({
   children,
   customProps,
   outlined,
+  ghost,
   customStyle,
 }) => {
   const theme = useTheme();
@@ -22,6 +24,7 @@ const Button: React.FC<Props> = ({
   const style = {
     default: css({
       padding: 0,
+      borderRadius: "10px",
       cursor: "pointer",
       display: "inline-flex",
       flexWrap: "wrap",
@@ -38,20 +41,47 @@ const Button: React.FC<Props> = ({
         backgroundColor: `hsl(
           ${h}
           ${Math.floor(s * 100)}%
-          ${Math.floor(l * 100)}% / 0.2
+          ${Math.floor(l * 25)}% / 1
         )`,
+      },
+    }),
+    ghost: css({
+      backgroundColor: "transparent",
+      color: theme.baseContent,
+      position: "relative",
+      "&:hover": {
+        backgroundColor: `hsl(
+            ${h}
+            ${Math.floor(s * 100)}%
+            ${Math.floor(l * 100)}%
+            / 0.23
+          )`,
       },
     }),
     outlined: css({
       backgroundColor: theme.base100,
-      outlineStyle: "solid",
-      outlineWidth: "2px",
-      outlineColor: theme.base300,
+      borderStyle: "solid",
+      borderWidth: "1px",
+      borderColor: theme.base300,
       color: theme.baseContent,
+      position: "relative",
+      "&:hover": {
+        backgroundColor: `hsl(
+          ${h}
+          ${Math.floor(s * 100)}%
+          ${Math.floor(l * 100)}%
+          / 0.23
+        )`,
+      },
     }),
   };
 
-  const styles = [style.default, outlined ? style.outlined : null, customStyle];
+  const styles = [
+    style.default,
+    outlined ? style.outlined : null,
+    ghost ? style.ghost : null,
+    customStyle,
+  ];
 
   return (
     <button type="button" css={styles} {...customProps}>

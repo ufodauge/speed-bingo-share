@@ -8,9 +8,6 @@ import { css } from "@emotion/react";
 
 import PopoutButton from "./buttons/popoutButton";
 import TaskButton from "./buttons/taskButton";
-import BottomRow from "./elementRows/bottomRow";
-import MiddleRow from "./elementRows/middleRow";
-import TopRow from "./elementRows/topRow";
 import PopoutCols from "./parts/popoutCols";
 import PopoutRows from "./parts/popoutRows";
 import TaskBoard from "./parts/taskBoard";

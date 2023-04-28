@@ -16,7 +16,7 @@ const Header: React.FC<Props> = ({ text, children }) => {
     padding: "0.5em",
     minHeight: "4em",
     width: "100%",
-    backgroundColor: theme.neutral,
+    // backgroundColor: theme.neutral,
     transitionProperty: "background-color",
     transitionDuration: "0.2s",
     transitionTimingFunction: "ease-in-out",

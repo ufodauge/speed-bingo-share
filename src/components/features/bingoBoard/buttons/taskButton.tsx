@@ -7,7 +7,7 @@ import { TileShape } from "@/types/tileShape";
 import Button from "@/components/ui/button";
 import { MouseButton } from "@/const/mouseButton";
 import { HighlightColors } from "@/const/highlightColors";
-import { css } from "@emotion/react";
+import { css, keyframes, useTheme } from "@emotion/react";
 
 type Props = {
   lineTypes: LineType[];
@@ -67,9 +67,31 @@ export default function TaskButton({ lineTypes, text }: Props) {
     onContextMenu: toggleHighlightColorIndex,
   };
 
+  const theme = useTheme();
+
+  const kf = keyframes({
+    "0%": { boxShadow: `0 0 0 0 ${theme.baseContent}` },
+    "100%": { boxShadow: `0 0 0 5px ${theme.baseContent}00` },
+  });
+
+  const highlights = [
+    theme.highlightColor1,
+    theme.highlightColor2,
+    theme.highlightColor3,
+    theme.highlightColor4,
+  ]
+
   const style = css({
-    
-  })
+    backgroundColor: highlights[highlightColorIndex],
+    "&:hover": {
+      backgroundColor: highlights[highlightColorIndex],
+      backgroundPosition: "right center",
+      backgroundSize: "200% auto",
+      animationName: kf,
+      animationDuration: "1s",
+      zIndex: "10",
+    },
+  });
 
   return (
     <Button customProps={customProps} outlined customStyle={style}>
