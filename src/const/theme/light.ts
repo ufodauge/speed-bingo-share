@@ -1,20 +1,28 @@
 import { Theme } from "@emotion/react";
+import { DefaultTheme } from "./default";
 
 export const LightTheme: Theme = {
-  primary: "#570df8",
+  ...DefaultTheme,
+  primary: "#5bdaf3",
+  primaryVariant: "#49cae0",
+  secondary: "#23c9a5",
+  secondaryVariant: "#1db493",
+  base: "#f5f5f5",
+  baseVariant: "#e8e8e8",
+  accent: "#f37848",
+  accentVariant: "#e06635",
+  neutral: "#bfc6d3",
+
   primaryContent: "#ffffff",
-  secondary: "#f000b8",
   secondaryContent: "#ffffff",
-  accent: "#37cdbe",
-  accentContent: "#163835",
-  neutral: "#025E73",
+  baseContent: "#4b4b4b",
+  accentContent: "#ffffff",
   neutralContent: "#ffffff",
-  base100: "#ffffff",
-  base200: "#F2F2F2",
-  base300: "#E5E6E6",
-  baseContent: "#037F8C",
-  highlightColor1: "#ffffff",
-  highlightColor2: "#AACDFF",
-  highlightColor3: "#FFA3DE",
-  highlightColor4: "#ACCE56",
+
+  highlightColor1: "#f5f5f5",
+  highlightColor2: "#67dff7",
+  highlightColor3: "#e6a5f3",
+  highlightColor4: "#f09c7b",
+
+  highlightContent: "#464646",
 };

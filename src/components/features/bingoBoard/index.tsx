@@ -7,7 +7,6 @@ import { Task } from "@/types/task";
 import { css } from "@emotion/react";
 
 import PopoutButton from "./buttons/popoutButton";
-import TaskButton from "./buttons/taskButton";
 import PopoutCols from "./parts/popoutCols";
 import PopoutRows from "./parts/popoutRows";
 import TaskBoard from "./parts/taskBoard";
@@ -30,8 +29,8 @@ export default function BingoBoard() {
   //     lines.push(`col${i + 1}`, `row${i + 1}`);
   //   }
 
-  const minCellSize = 4;
-  const normalCellSize = 8;
+  const minCellSize = 3.8;
+  const normalCellSize = 7.6;
   const gapPx = 2;
   const boardSize = taskData.size
 

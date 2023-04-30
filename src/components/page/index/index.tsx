@@ -1,20 +1,32 @@
-import BingoBoard from '@/components/features/bingoBoard';
-import ThemeToggler from '@/components/features/modules/themeToggler';
-import Header from '@/components/ui/header';
-import ThemeWrapper from '@/contexts/theme';
-import { useTaskData } from '@/lib/hooks/useTaskData';
+import BingoBoard from "@/components/features/bingoBoard";
+import ThemeToggler from "@/components/features/modules/themeToggler";
+import MainBoard from "@/components/layouts/mainBoard";
+import Header from "@/components/ui/header";
+import ThemeWrapper from "@/contexts/theme";
+import { useTaskData } from "@/lib/hooks/useTaskData";
+import { css } from "@emotion/react";
 
 type Props = {};
 
 const Home: React.FC<Props> = () => {
   const taskData = useTaskData();
-  
+
+  const style = css({
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    gap: "1.5rem",
+  });
+
   return (
     <ThemeWrapper>
       <Header text={taskData.title}>
         <ThemeToggler />
       </Header>
-      <BingoBoard />
+      <div css={style}>
+        <BingoBoard />
+        <MainBoard />
+      </div>
     </ThemeWrapper>
   );
 };

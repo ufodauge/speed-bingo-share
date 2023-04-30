@@ -70,8 +70,8 @@ export default function TaskButton({ lineTypes, text }: Props) {
   const theme = useTheme();
 
   const kf = keyframes({
-    "0%": { boxShadow: `0 0 0 0 ${theme.baseContent}` },
-    "100%": { boxShadow: `0 0 0 5px ${theme.baseContent}00` },
+    "0%": { boxShadow: `0 0 0 0 ${theme.primary}` },
+    "100%": { boxShadow: `0 0 0 8px ${theme.primary}00` },
   });
 
   const highlights = [
@@ -79,12 +79,16 @@ export default function TaskButton({ lineTypes, text }: Props) {
     theme.highlightColor2,
     theme.highlightColor3,
     theme.highlightColor4,
-  ]
+  ];
 
   const style = css({
     backgroundColor: highlights[highlightColorIndex],
+    color: theme.highlightContent,
+    borderColor: "transparent",
     "&:hover": {
+      borderColor: theme.primary,
       backgroundColor: highlights[highlightColorIndex],
+      color: theme.highlightContent,
       backgroundPosition: "right center",
       backgroundSize: "200% auto",
       animationName: kf,

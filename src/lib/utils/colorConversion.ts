@@ -38,7 +38,11 @@ export const hexToHsl = (color: ColorCode): HslColor => {
         break;
     }
   }
-  return { h, s, l };
+  return {
+    h: Math.floor(h),
+    s: Math.floor(s * 100),
+    l: Math.floor(l * 100),
+  };
 };
 
 /**

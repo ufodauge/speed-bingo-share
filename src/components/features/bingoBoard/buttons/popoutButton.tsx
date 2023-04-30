@@ -9,7 +9,8 @@ import { Task } from "@/types/task";
 
 import Button from "@/components/ui/button";
 import { ButtonHTMLAttributes } from "react";
-import { css } from "@emotion/react";
+import { css, useTheme } from "@emotion/react";
+import { relative } from "path";
 
 type Props = {
   lineType: LineType;
@@ -65,17 +66,28 @@ export default function PopoutButton({ lineType }: Props) {
 
   //   const onMouseOver = () => updateTargetedLine(lineType);
   //   const onMouseOut = () => updateTargetedLine();
+
   const customProps: ButtonHTMLAttributes<HTMLButtonElement> = {};
 
+  const theme = useTheme();
+
   const style = css({
-    // ...sizePatcher(),
-    fontSize: "large"
+    fontSize: "large",
+    backgroundColor: theme.baseVariant,
+    color: theme.baseContent,
+    "&:hover": {
+      color: theme.primaryContent,
+      borderColor: theme.primary,
+      borderStyle: "solid",
+      borderWidth: "2px",
+    },
   });
 
   return (
     <Button
       customProps={customProps}
       customStyle={style}
+      outlined
       //   className={className}
       //   onMouseOver={onMouseOver}
       //   onMouseOut={onMouseOut}

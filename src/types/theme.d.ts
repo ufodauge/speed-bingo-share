@@ -3,20 +3,26 @@ export type ColorCode = `#${string}`;
 declare module "@emotion/react" {
   export interface Theme {
     primary: ColorCode;
-    primaryContent: ColorCode;
+    primaryVariant: ColorCode;
     secondary: ColorCode;
-    secondaryContent: ColorCode;
+    secondaryVariant: ColorCode;
+    base: ColorCode;
+    baseVariant: ColorCode;
     accent: ColorCode;
-    accentContent: ColorCode;
+    accentVariant: ColorCode;
     neutral: ColorCode;
-    neutralContent: ColorCode;
-    base100: ColorCode;
-    base200: ColorCode;
-    base300: ColorCode;
+
+    primaryContent: ColorCode;
+    secondaryContent: ColorCode;
     baseContent: ColorCode;
+    accentContent: ColorCode;
+    neutralContent: ColorCode;
+
     highlightColor1: ColorCode;
     highlightColor2: ColorCode;
     highlightColor3: ColorCode;
     highlightColor4: ColorCode;
+
+    highlightContent: ColorCode;
   }
 }

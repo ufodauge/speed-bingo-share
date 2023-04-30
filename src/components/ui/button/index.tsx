@@ -3,7 +3,7 @@ import { SerializedStyles, css, useTheme } from "@emotion/react";
 import { hexToHsl } from "@/lib/utils/colorConversion";
 
 type Props = {
-  customProps: ButtonHTMLAttributes<HTMLButtonElement>;
+  customProps?: ButtonHTMLAttributes<HTMLButtonElement>;
   outlined?: boolean;
   ghost?: boolean;
   children?: ReactNode;
@@ -34,44 +34,43 @@ const Button: React.FC<Props> = ({
       fontWeight: "bold",
       backgroundColor: theme.neutral,
       color: theme.neutralContent,
-      transitionProperty: "all",
+      transitionProperty: "color background-color font-weight",
       transitionDuration: "0.2s",
       transitionTimingFunction: "ease-in-out",
       "&:hover": {
-        backgroundColor: `hsl(
-          ${h}
-          ${Math.floor(s * 100)}%
-          ${Math.floor(l * 25)}% / 1
-        )`,
+        backgroundColor: theme.primary,
+        color: theme.primaryContent,
+      },
+      "&:active": {
+        backgroundColor: theme.primaryVariant,
+        color: theme.primaryContent,
       },
     }),
     ghost: css({
       backgroundColor: "transparent",
       color: theme.baseContent,
-      position: "relative",
       "&:hover": {
-        backgroundColor: `hsl(
-            ${h}
-            ${Math.floor(s * 100)}%
-            ${Math.floor(l * 100)}%
-            / 0.23
-          )`,
+        backgroundColor: theme.primary,
+        color: theme.primaryContent,
+      },
+      "&:active": {
+        backgroundColor: theme.primaryVariant,
+        color: theme.primaryContent,
       },
     }),
     outlined: css({
-      backgroundColor: theme.base100,
+      backgroundColor: theme.base,
       borderStyle: "solid",
-      borderWidth: "1px",
-      borderColor: theme.base300,
+      borderWidth: "2px",
+      borderColor: theme.neutral,
       color: theme.baseContent,
-      position: "relative",
       "&:hover": {
-        backgroundColor: `hsl(
-          ${h}
-          ${Math.floor(s * 100)}%
-          ${Math.floor(l * 100)}%
-          / 0.23
-        )`,
+        backgroundColor: theme.primary,
+        color: theme.primaryContent,
+      },
+      "&:active": {
+        backgroundColor: theme.primaryVariant,
+        color: theme.primaryContent,
       },
     }),
   };

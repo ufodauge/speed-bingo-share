@@ -50,11 +50,10 @@ const ThemeWrapper: React.FC<Props> = ({ children }) => {
   const theme = getTheme(themeName);
 
   const style = css({
-    backgroundColor: theme.base100,
+    backgroundColor: theme.base,
     transitionDuration: ".2s",
     transitionTimingFunction: "ease-in-out",
-    
-  })
+  });
 
   return (
     <ThemeProvider theme={theme}>

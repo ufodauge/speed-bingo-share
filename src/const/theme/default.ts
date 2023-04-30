@@ -1,8 +1,6 @@
 import { Theme } from "@emotion/react";
-import { DefaultTheme } from "./default";
 
-export const DarkTheme: Theme = {
-  ...DefaultTheme,
+export const DefaultTheme: Theme = {
   primary: "#3ed2ee",
   primaryVariant: "#32b8d1",
   secondary: "#f8faf5",
