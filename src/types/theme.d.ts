@@ -23,6 +23,11 @@ declare module "@emotion/react" {
     highlightColor3: ColorCode;
     highlightColor4: ColorCode;
 
+    highlightColor1Variant: ColorCode;
+    highlightColor2Variant: ColorCode;
+    highlightColor3Variant: ColorCode;
+    highlightColor4Variant: ColorCode;
+
     highlightContent: ColorCode;
   }
 }

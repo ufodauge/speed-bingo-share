@@ -10,10 +10,11 @@
 // ]
 
 import { css, useTheme } from "@emotion/react";
+import { ChangeEventHandler } from "react";
 
 type Option = { text: string; value: any };
 type Group = { group: string; values: Option[] };
-type Options = (Option | Group)[];
+export type Options = (Option | Group)[];
 
 const isOption = (v: any): v is Option =>
   Object.keys(v).includes("text") &&
@@ -22,9 +23,10 @@ const isOption = (v: any): v is Option =>
 
 type Props = {
   options: Options;
+  onChange?: ChangeEventHandler<HTMLSelectElement>;
 };
 
-const Selector: React.FC<Props> = ({ options }) => {
+const Selector: React.FC<Props> = ({ options, onChange }) => {
   const theme = useTheme();
 
   const style = css({
@@ -35,12 +37,12 @@ const Selector: React.FC<Props> = ({ options }) => {
     borderStyle: "solid",
     borderWidth: "2px",
     borderRadius: "10px",
-    padding: "1rem",
+    paddingInline: "1rem",
     transition: "inherit",
   });
 
   return (
-    <select css={style}>
+    <select css={style} onChange={onChange}>
       {options.map((v, i) => {
         if (isOption(v)) {
           return (

@@ -19,10 +19,15 @@ export const DarkTheme: Theme = {
   accentContent: "#ffffff",
   neutralContent: "#ffffff",
 
-  highlightColor1: "#424765",
+  highlightColor1: "#484d68",
   highlightColor2: "#3ed2ee",
   highlightColor3: "#cf2ba8",
   highlightColor4: "#f06f3c",
+
+  highlightColor1Variant: "#313348",
+  highlightColor2Variant: "#47c5df",
+  highlightColor3Variant: "#bd349d",
+  highlightColor4Variant: "#dd6d40",
 
   highlightContent: "#ffffff",
 };

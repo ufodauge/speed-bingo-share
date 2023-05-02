@@ -3,6 +3,7 @@ import zlib from "zlib";
 
 const password = process.env.NEXT_PUBLIC_PASSWORD;
 
+// TODO 
 export const Encode = (str: string): string => {
   assert(password, "Password?");
 

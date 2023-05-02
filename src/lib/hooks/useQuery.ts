@@ -33,4 +33,4 @@ export const useQuery = <T extends { [key in string]: string }>(
   );
 };
 
-// useQuery( (v) => { setTheme(v.theme) }, [ "theme" ] );
+// useQuery( (v) => { setTheme(v.theme) }, { theme: "light" } );

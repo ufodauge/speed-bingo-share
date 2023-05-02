@@ -1,51 +1,72 @@
-import assert from "assert";
-import { useRouter } from "next/router";
-import { createContext, FC, ReactNode, useEffect, useState } from "react";
+import { createContext, FC, ReactNode, useContext, useState } from 'react';
 
-import TaskGenerator from "@/class/TaskGenerator";
-import { DefaultLanguage } from "@/const/language";
-import { taskData } from "@/const/TaskData";
-import { LineType } from "@/types/lineType";
-import { Task } from "@/types/task";
+import {
+    UnimplementedFunctionCalledException
+} from '@/class/exception/unimplementedFunctionCalled';
+import TaskGenerator from '@/class/TaskGenerator';
+import { DefaultLanguage } from '@/const/language';
+import { taskData } from '@/const/TaskData';
+import { useQuery } from '@/lib/hooks/useQuery';
+import { useRouterPush } from '@/lib/hooks/useRouterPush';
+import { LayoutName } from '@/types/layout';
+import { LineType } from '@/types/lineType';
+import { MainPageQuery } from '@/types/query/mainpage';
+import { Task } from '@/types/task';
+
+import { useThemeValue } from '../theme';
 
 type BoardValuesProps = {
   seed: number;
   lang: string;
   tasks: Task[];
   targetedLine?: LineType;
+  layout: LayoutName;
 };
 
 type BoardActionsProps = {
   setSeed: React.Dispatch<React.SetStateAction<number>>;
   setLanguage: React.Dispatch<React.SetStateAction<string>>;
+  setLayout: React.Dispatch<React.SetStateAction<LayoutName>>;
   updateTargetedLine: (lineType?: LineType) => void;
   updateTasks: (seed: number, lang: string) => void;
 };
 
-export const BoardValuesContext = createContext<BoardValuesProps>({
+const BoardValuesContext = createContext<BoardValuesProps>({
   seed: 0,
   lang: "en",
   tasks: TaskGenerator(0, "en"),
+  layout: "vertical",
 });
 
-export const BoardActionsContext = createContext<BoardActionsProps>({
-  setSeed: () => {},
-  updateTargetedLine: () => {},
-  setLanguage: () => {},
-  updateTasks: () => {},
+const BoardActionsContext = createContext<BoardActionsProps>({
+  setSeed: () => {
+    throw new UnimplementedFunctionCalledException();
+  },
+  updateTargetedLine: () => {
+    throw new UnimplementedFunctionCalledException();
+  },
+  setLayout: () => {
+    throw new UnimplementedFunctionCalledException();
+  },
+  setLanguage: () => {
+    throw new UnimplementedFunctionCalledException();
+  },
+  updateTasks: () => {
+    throw new UnimplementedFunctionCalledException();
+  },
 });
 
 type Props = {
   children: ReactNode;
 };
 
-const BingoBoardWrapper: FC<Props> = ({ children }: Props) => {
-  const router = useRouter();
-  const query = router.query;
+const DEFAULT_SEED_DIGITS = 1000000;
 
+const BingoBoardWrapper: FC<Props> = ({ children }: Props) => {
   const [seed, setSeed] = useState(0);
   const [lang, setLanguage] = useState("en");
   const [tasks, setTasks] = useState(TaskGenerator(0, "en"));
+  const [layout, setLayout] = useState<LayoutName>("vertical");
 
   const updateTasks = (seed: number, lang: string) =>
     setTasks(TaskGenerator(seed, lang));
@@ -55,49 +76,36 @@ const BingoBoardWrapper: FC<Props> = ({ children }: Props) => {
     setTargetedLine(lineType);
   };
 
-  /**
-   * on mounted
-   */
-  useEffect(
-    () => {
-      if (!router.isReady) return;
+  const [_, updateQuery] = useRouterPush<MainPageQuery>();
+  const { themeName } = useThemeValue();
 
-      assert(
-        query.seed === undefined || typeof query.seed === "string",
-        "Multiple seed numbers."
-      );
-      assert(
-        query.lang === undefined || typeof query.lang === "string",
-        "Multiple languages."
-      );
+  useQuery(
+    (v) => {
+      const _lang =
+        v.lang && taskData.lang.includes(v.lang) ? v.lang : DefaultLanguage;
+      const _seed = !Number.isNaN(Number(v.seed))
+        ? Number(v.seed)
+        : Math.floor(Math.random() * DEFAULT_SEED_DIGITS);
 
-      const lang =
-        query.lang && taskData.lang.includes(query.lang)
-          ? query.lang
-          : DefaultLanguage;
-      const seed = !Number.isNaN(Number(query.seed))
-        ? Number(query.seed)
-        : Math.floor(Math.random() * 1000000);
+      setSeed(_seed);
+      setLanguage(_lang);
 
-      setSeed(seed);
-      setLanguage(lang);
+      updateTasks(_seed, _lang);
 
-      updateTasks(seed, lang);
-
-      router.push(
+      updateQuery(
+        "/",
         {
-          pathname: "/",
-          query: {
-            seed: String(seed),
-            lang: lang,
-          },
+          seed: _seed,
+          lang: _lang,
+          theme: themeName,
         },
-        undefined,
-        { shallow: true }
+        true
       );
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.isReady]
+    {
+      seed: "",
+      lang: "en",
+    }
   );
 
   const boardValues = {
@@ -105,6 +113,7 @@ const BingoBoardWrapper: FC<Props> = ({ children }: Props) => {
     lang,
     tasks,
     targetedLine,
+    layout,
   };
 
   const boardActions = {
@@ -112,6 +121,7 @@ const BingoBoardWrapper: FC<Props> = ({ children }: Props) => {
     updateTasks,
     setLanguage,
     updateTargetedLine,
+    setLayout
   };
 
   return (
@@ -121,6 +131,13 @@ const BingoBoardWrapper: FC<Props> = ({ children }: Props) => {
       </BoardActionsContext.Provider>
     </BoardValuesContext.Provider>
   );
+};
+
+export const useBingoBoardContext = () => {
+  return {
+    BoardValues: useContext(BoardValuesContext),
+    BoardActions: useContext(BoardActionsContext),
+  };
 };
 
 export default BingoBoardWrapper;

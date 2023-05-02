@@ -1,13 +1,14 @@
 import { css, useTheme } from "@emotion/react";
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler, HTMLInputTypeAttribute } from "react";
 
 type Props = {
+  type: HTMLInputTypeAttribute;
   placeholder?: string;
-  value?: string;
+  value?: string | number | readonly string[] | undefined;
   onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 
-const TextInput: React.FC<Props> = ({ placeholder, value, onChange }) => {
+const TextInput: React.FC<Props> = ({ placeholder, value, onChange, type }) => {
   const theme = useTheme();
   const style = css({
     width: "100%",
@@ -23,6 +24,7 @@ const TextInput: React.FC<Props> = ({ placeholder, value, onChange }) => {
 
   return (
     <input
+      type={type}
       css={style}
       placeholder={placeholder}
       value={value}

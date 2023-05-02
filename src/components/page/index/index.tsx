@@ -2,6 +2,7 @@ import BingoBoard from "@/components/features/bingoBoard";
 import ThemeToggler from "@/components/features/modules/themeToggler";
 import MainBoard from "@/components/layouts/mainBoard";
 import Header from "@/components/ui/header";
+import BingoBoardWrapper from "@/contexts/bingoBoard";
 import ThemeWrapper from "@/contexts/theme";
 import { useTaskData } from "@/lib/hooks/useTaskData";
 import { css } from "@emotion/react";
@@ -24,8 +25,10 @@ const Home: React.FC<Props> = () => {
         <ThemeToggler />
       </Header>
       <div css={style}>
-        <BingoBoard />
-        <MainBoard />
+        <BingoBoardWrapper>
+          <BingoBoard />
+          <MainBoard />
+        </BingoBoardWrapper>
       </div>
     </ThemeWrapper>
   );

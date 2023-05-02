@@ -1,10 +1,12 @@
 import { css } from "@emotion/react";
 import TaskButton from "../buttons/taskButton";
-import { Task } from "@/types/task";
+import { useBingoBoardContext } from "@/contexts/bingoBoard";
 
-type Props = { boardSize: number; gap: number; tasks: Task[] };
+type Props = { boardSize: number; gap: number };
 
-const TaskBoard: React.FC<Props> = ({ boardSize, gap, tasks }) => {
+const TaskBoard: React.FC<Props> = ({ boardSize, gap }) => {
+  const { tasks } = useBingoBoardContext().BoardValues;
+
   const style = css({
     display: "grid",
     gridTemplateColumns: [...Array(boardSize)].map(() => "1fr").join(" "),
@@ -14,7 +16,11 @@ const TaskBoard: React.FC<Props> = ({ boardSize, gap, tasks }) => {
   return (
     <div css={style}>
       {[...Array(boardSize ** 2)].map((_, i) => (
-        <TaskButton text="test" lineTypes={[]} key={i} />
+        <TaskButton
+          text={tasks[i].text}
+          lineTypes={tasks[i].lineTypes}
+          key={i}
+        />
       ))}
     </div>
   );

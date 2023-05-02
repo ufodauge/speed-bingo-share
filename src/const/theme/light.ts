@@ -24,5 +24,10 @@ export const LightTheme: Theme = {
   highlightColor3: "#e6a5f3",
   highlightColor4: "#f09c7b",
 
+  highlightColor1Variant: "#f5f5f5",
+  highlightColor2Variant: "#67dff7",
+  highlightColor3Variant: "#e6a5f3",
+  highlightColor4Variant: "#f09c7b",
+
   highlightContent: "#464646",
 };

@@ -1,5 +1,5 @@
 require("dotenv").config();
-const randomBytes = require("crypto").randomBytes(128).toString("hex");
+const randomBytes = require("crypto").randomBytes(32).toString("hex");
 const debug = process.env.NODE_ENV !== "production";
 
 /** @type {import('next').NextConfig} */

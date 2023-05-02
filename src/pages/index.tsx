@@ -1,16 +1,9 @@
-import React from 'react';
+import Index from "@/components/page/index";
 
-import AppHeader from './components/AppHeader/AppHeader';
-import MainBoard from './components/MainBoard/MainBoard';
-import ThemeWrapper from './contexts/Theme';
-
-const Home = () => {
+export default function Home() {
   return (
-    <ThemeWrapper>
-      <AppHeader />
-      <MainBoard />
-    </ThemeWrapper>
+    <main>
+      <Index />
+    </main>
   );
-};
-
-export default Home;
+}

@@ -1,9 +1,10 @@
-import { ButtonHTMLAttributes, ReactNode } from "react";
-import { SerializedStyles, css, useTheme } from "@emotion/react";
-import { hexToHsl } from "@/lib/utils/colorConversion";
+import { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from "react";
+import { SerializedStyles, css, keyframes, useTheme } from "@emotion/react";
 
 type Props = {
   customProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onRightClick?: MouseEventHandler<HTMLButtonElement>;
   outlined?: boolean;
   ghost?: boolean;
   children?: ReactNode;
@@ -12,14 +13,14 @@ type Props = {
 
 const Button: React.FC<Props> = ({
   children,
+  onClick,
+  onRightClick,
   customProps,
   outlined,
   ghost,
   customStyle,
 }) => {
   const theme = useTheme();
-
-  const { h, s, l } = hexToHsl(theme.neutral);
 
   const style = {
     default: css({
@@ -82,8 +83,21 @@ const Button: React.FC<Props> = ({
     customStyle,
   ];
 
+  const rightClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    if (onRightClick) {
+      e.preventDefault();
+      onRightClick(e);
+    }
+  };
+
   return (
-    <button type="button" css={styles} {...customProps}>
+    <button
+      type="button"
+      css={styles}
+      onClick={onClick}
+      onContextMenu={rightClick}
+      {...customProps}
+    >
       {children}
     </button>
   );

@@ -1,73 +1,57 @@
-import { CalcPopupWindowFeatures } from "@/lib/calcPopupWindowFeatures";
-import {
-  BoardActionsContext,
-  BoardValuesContext,
-} from "@/pages/contexts/BingoBoard";
-import { ThemeValue } from "@/pages/contexts/Theme";
-import { LineType } from "@/types/lineType";
-import { Task } from "@/types/task";
+import { ButtonHTMLAttributes } from "react";
 
 import Button from "@/components/ui/button";
-import { ButtonHTMLAttributes } from "react";
+import { useBingoBoardContext } from "@/contexts/bingoBoard";
+import { useThemeValue } from "@/contexts/theme";
+import { CalcPopupWindowFeatures } from "@/lib/calcPopupWindowFeatures";
+import { getTargetTasksByLineType } from "@/lib/utils/getTargetTasksByLineType";
+import { LineType } from "@/types/lineType";
+import { PopoutQuery } from "@/types/query/popout";
 import { css, useTheme } from "@emotion/react";
-import { relative } from "path";
 
 type Props = {
   lineType: LineType;
 };
 
 export default function PopoutButton({ lineType }: Props) {
-  //   const getTargetTaskTexts = (lineType: LineType): Task[] => {
-  //     const result: Task[] = [];
-  //     tasks
-  //       .filter((v) => v.lineTypes.find((v) => v === lineType))
-  //       .forEach((v) => result.push(v));
-  //     return result;
-  //   };
-  // const targetTasks = getTargetTaskTexts(lineType);
+  const { BoardActions, BoardValues } = useBingoBoardContext();
+  const { tasks, layout } = BoardValues;
 
-  //   const { updateTargetedLine } = useContext(BoardActionsContext);
-  //   const { lang } = useContext(BoardValuesContext);
-  //   const { theme } = useContext(ThemeValue);
+  const { updateTargetedLine } = BoardActions;
+  const { lang } = BoardValues;
 
-  //   const url = "/popout";
-  //   const params: { [key: string]: string } = {
-  //     taskIndex: targetTasks.map((v) => v.index).join(";"),
-  //     header: lineType,
-  //     layout: lineType === "card" ? "card" : "vertical",
-  //     lang,
-  //     theme,
-  //   };
-  //   const features = CalcPopupWindowFeatures(
-  //     lineType === "card" ? "card" : "vertical"
-  //   );
+  const { themeName } = useThemeValue();
 
-  //   const onClick = () =>
-  //     window.open(
-  //       `${url}?${Object.keys(params)
-  //         .map((v) => `${v}=${params[v]}`)
-  //         .join("&")}`,
-  //       "_blank",
-  //       features
-  //     );
+  const targetTasks = getTargetTasksByLineType(tasks, lineType);
 
-  // const sizePatcher = () => {
-  //   if (lineType === "bltr" || lineType === "tlbr") {
-  //     return { width: "4em", height: "4em" };
-  //   } else if (lineType.match(/col\d+/)) {
-  //     return { width: "10em", height: "4em" };
-  //   } else if (lineType.match(/row\d+/)) {
-  //     return { width: "4em", height: "10em" };
-  //   } else if (lineType === "card") {
-  //     return { flexGrow: 1, height: "4em" };
-  //   }
-  //   return { width: 0, height: 0 };
-  // };
+  const url = "/popout";
+  const params: PopoutQuery = {
+    tasks: targetTasks.map((v) => v.index).join(";"),
+    header: lineType,
+    layout: lineType === "card" ? "card" : layout,
+    lang,
+    theme: themeName,
+  };
 
-  //   const onMouseOver = () => updateTargetedLine(lineType);
-  //   const onMouseOut = () => updateTargetedLine();
+  const onClick = () => {
+    const features = CalcPopupWindowFeatures(
+      lineType === "card" ? "card" : layout
+    );
+    window.open(
+      `${url}?${Object.entries(params)
+        .map(([k, v]) => `${k}=${v}`)
+        .join("&")}`,
+      "_blank",
+      features
+    );
+  };
+  const onMouseOver = () => updateTargetedLine(lineType);
+  const onMouseOut = () => updateTargetedLine();
 
-  const customProps: ButtonHTMLAttributes<HTMLButtonElement> = {};
+  const customProps: ButtonHTMLAttributes<HTMLButtonElement> = {
+    onMouseOver,
+    onMouseOut,
+  };
 
   const theme = useTheme();
 
@@ -87,11 +71,8 @@ export default function PopoutButton({ lineType }: Props) {
     <Button
       customProps={customProps}
       customStyle={style}
+      onClick={onClick}
       outlined
-      //   className={className}
-      //   onMouseOver={onMouseOver}
-      //   onMouseOut={onMouseOut}
-      //   onClick={onClick}
     >
       <p>{lineType}</p>
     </Button>

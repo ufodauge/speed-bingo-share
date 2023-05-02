@@ -8,7 +8,6 @@ type Props = {
 
 const adjustToLocalTime = (date: Date): void => {
   date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-  date.setSeconds(date.getSeconds() + 300);
 };
 const dateToFormattedString = (date: Date): string =>
   date.toISOString().slice(0, -8);

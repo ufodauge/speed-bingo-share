@@ -1,13 +1,11 @@
-import { ButtonHTMLAttributes, useContext, useState } from "react";
+import { ButtonHTMLAttributes, useState } from 'react';
 
-import { BoardValuesContext } from "@/pages/contexts/BingoBoard";
-import { LineType } from "@/types/lineType";
-import { TileShape } from "@/types/tileShape";
-
-import Button from "@/components/ui/button";
-import { MouseButton } from "@/const/mouseButton";
-import { HighlightColors } from "@/const/highlightColors";
-import { css, keyframes, useTheme } from "@emotion/react";
+import Button from '@/components/ui/button';
+import { HighlightColors } from '@/const/highlightColors';
+import { MouseButton } from '@/const/mouseButton';
+import { useBingoBoardContext } from '@/contexts/bingoBoard';
+import { LineType } from '@/types/lineType';
+import { css, keyframes, useTheme } from '@emotion/react';
 
 type Props = {
   lineTypes: LineType[];
@@ -15,7 +13,7 @@ type Props = {
 };
 
 export default function TaskButton({ lineTypes, text }: Props) {
-  //   const { targetedLine } = useContext(BoardValuesContext);
+  const { targetedLine } = useBingoBoardContext().BoardValues;
 
   const [highlightColorIndex, setHighlightColorIndex] = useState(0);
 
@@ -53,15 +51,6 @@ export default function TaskButton({ lineTypes, text }: Props) {
     }
   };
 
-  //   const targetedClass =
-  //     targetedLine !== undefined && lineTypes.includes(targetedLine)
-  //       ? "ring-1 ring-info ring-opacity-30"
-  //       : "";
-
-  //   const highlightTypeClass = `${HighlightColors[highlightTypeIndex]} ${targetedClass}`;
-
-  //   const className = `btn btn-square no-animation w-32 h-32 ${highlightTypeClass}`;
-
   const customProps: ButtonHTMLAttributes<HTMLButtonElement> = {
     onClick: toggleHighlightColorIndex,
     onContextMenu: toggleHighlightColorIndex,
@@ -81,24 +70,38 @@ export default function TaskButton({ lineTypes, text }: Props) {
     theme.highlightColor4,
   ];
 
-  const style = css({
-    backgroundColor: highlights[highlightColorIndex],
-    color: theme.highlightContent,
-    borderColor: "transparent",
-    "&:hover": {
-      borderColor: theme.primary,
+  const style = css(
+    {
       backgroundColor: highlights[highlightColorIndex],
       color: theme.highlightContent,
-      backgroundPosition: "right center",
-      backgroundSize: "200% auto",
-      animationName: kf,
-      animationDuration: "1s",
-      zIndex: "10",
+      borderColor: "transparent",
+      "&:hover": {
+        borderColor: theme.primary,
+        backgroundColor: highlights[highlightColorIndex],
+        color: theme.highlightContent,
+        backgroundPosition: "right center",
+        backgroundSize: "200% auto",
+        animationName: kf,
+        animationDuration: "1s",
+        zIndex: "10",
+      },
     },
-  });
+    targetedLine !== undefined && lineTypes.includes(targetedLine)
+      ? {
+          borderColor: theme.primary,
+          backgroundColor: highlights[highlightColorIndex],
+          color: theme.highlightContent,
+          backgroundPosition: "right center",
+          backgroundSize: "200% auto",
+          animationName: kf,
+          animationDuration: "1s",
+          zIndex: "10",
+        }
+      : {}
+  );
 
   return (
-    <Button customProps={customProps} outlined customStyle={style}>
+    <Button customProps={customProps} customStyle={style} outlined>
       <p suppressHydrationWarning>{text}</p>
     </Button>
   );

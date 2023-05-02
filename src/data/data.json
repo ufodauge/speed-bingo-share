@@ -238,120 +238,120 @@
     {
       "difficulty": 1,
       "contents": {
-        "ja": "タスク1",
-        "en": "task 1"
+        "ja": "タスク26",
+        "en": "task 26"
       },
       "tags": ["no_explosives"]
     },
     {
       "difficulty": 2,
       "contents": {
-        "ja": "タスク2",
-        "en": "task 2"
+        "ja": "タスク27",
+        "en": "task 27"
       },
       "tags": ["no_explosives"]
     },
     {
       "difficulty": 3,
       "contents": {
-        "ja": "タスク3",
-        "en": "task 3"
+        "ja": "タスク28",
+        "en": "task 28"
       },
       "tags": ["no_explosives"]
     },
     {
       "difficulty": 4,
       "contents": {
-        "ja": "タスク4",
-        "en": "task 4"
+        "ja": "タスク29",
+        "en": "task 29"
       },
       "tags": ["foo"]
     },
     {
       "difficulty": 5,
       "contents": {
-        "ja": "タスク5",
-        "en": "task 5"
+        "ja": "タスク30",
+        "en": "task 30"
       },
       "tags": ["foo"]
     },
     {
       "difficulty": 6,
       "contents": {
-        "ja": "タスク6",
-        "en": "task 6"
+        "ja": "タスク31",
+        "en": "task 31"
       },
       "tags": ["foo"]
     },
     {
       "difficulty": 7,
       "contents": {
-        "ja": "タスク7",
-        "en": "task 7"
+        "ja": "タスク32",
+        "en": "task 32"
       },
       "tags": ["bar"]
     },
     {
       "difficulty": 8,
       "contents": {
-        "ja": "タスク8",
-        "en": "task 8"
+        "ja": "タスク33",
+        "en": "task 33"
       },
       "tags": ["bar"]
     },
     {
       "difficulty": 9,
       "contents": {
-        "ja": "タスク9",
-        "en": "task 9"
+        "ja": "タスク34",
+        "en": "task 34"
       },
       "tags": ["bar"]
     },
     {
       "difficulty": 10,
       "contents": {
-        "ja": "タスク10",
-        "en": "task 10"
+        "ja": "タスク35",
+        "en": "task 35"
       },
       "tags": ["no_explosives", "foo"]
     },
     {
       "difficulty": 11,
       "contents": {
-        "ja": "タスク11",
-        "en": "task 11"
+        "ja": "タスク36",
+        "en": "task 36"
       },
       "tags": ["no_explosives", "bar"]
     },
     {
       "difficulty": 12,
       "contents": {
-        "ja": "タスク12",
-        "en": "task 12"
+        "ja": "タスク37",
+        "en": "task 37"
       },
       "tags": ["foo", "bar"]
     },
     {
       "difficulty": 13,
       "contents": {
-        "ja": "タスク13",
-        "en": "task 13"
+        "ja": "タスク38",
+        "en": "task 38"
       },
       "tags": ["no_explosives", "foo", "bar"]
     },
     {
       "difficulty": 14,
       "contents": {
-        "ja": "タスク14",
-        "en": "task 14"
+        "ja": "タスク39",
+        "en": "task 39"
       },
       "tags": ["dummy"]
     },
     {
       "difficulty": 15,
       "contents": {
-        "ja": "タスク15",
-        "en": "task 15"
+        "ja": "タスク40",
+        "en": "task 40"
       },
       "tags": ["dummy"]
     }
