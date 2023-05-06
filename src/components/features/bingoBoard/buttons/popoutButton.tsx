@@ -24,7 +24,7 @@ export default function PopoutButton({ lineType }: Props) {
 
   const targetTasks = getTargetTasksByLineType(tasks, lineType);
 
-  const url = "/popout";
+  const url = "/speed-bingo-template/popout";
   const params: PopoutQuery = {
     tasks: targetTasks.map((v) => v.index).join(";"),
     header: lineType,
