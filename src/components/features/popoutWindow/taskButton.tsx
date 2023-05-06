@@ -127,7 +127,7 @@ const TaskButton: React.FC<Props> = ({ task }) => {
       onContextMenu={toggleHighlightTypeIndex}
     >
       <div css={style.taskText}>{task.text}</div>
-      <div css={style.base}>{trackerElements}</div>
+      <div css={style.trackers}>{trackerElements}</div>
     </div>
   );
 };
