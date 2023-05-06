@@ -24,7 +24,7 @@ const TaskButton: React.FC<Props> = ({ task }) => {
   const htPrev = () => {
     setHighlightColorIndex(
       (highlightColorIndex + HighlightColors.length - 1) %
-        HighlightColors.length
+      HighlightColors.length
     );
   };
 
@@ -114,10 +114,10 @@ const TaskButton: React.FC<Props> = ({ task }) => {
       fontWeight: "bold",
       fontSize: "1.2em",
     }),
-    // trackers: css({
-    //   display: "flex",
-    //   flexDirection: "col",
-    // }),
+    trackers: css({
+      display: "flex",
+      flexDirection: "column"
+    }),
   };
 
   return (
@@ -127,7 +127,7 @@ const TaskButton: React.FC<Props> = ({ task }) => {
       onContextMenu={toggleHighlightTypeIndex}
     >
       <div css={style.taskText}>{task.text}</div>
-      <div>{trackerElements}</div>
+      <div css={style.base}>{trackerElements}</div>
     </div>
   );
 };
