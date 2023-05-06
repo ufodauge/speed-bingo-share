@@ -30,10 +30,12 @@ const Toggler: React.FC<Props> = ({ icons }) => {
       toggleByIndex(i);
     };
 
+    const imagePath = `/${process.env.NEXT_PUBLIC_REPONAME}${icon === "" ? "/button.png" : icon}`
+
     return (
       <div key={i} css={style.base} onClick={onClick}>
         <img
-          src={icon === "" ? "/button.png" : icon}
+          src={imagePath}
           alt="icon"
           css={style.image}
         />

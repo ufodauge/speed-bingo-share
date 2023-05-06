@@ -8,7 +8,7 @@
 
 ```js
 ...
-8: assetPrefix: isDevEnv ? "" : "/your-repo-name"
+5: const repoName = "your-repository-name"
 ...
 ```
 
