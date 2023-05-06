@@ -1,14 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
-import { css, useTheme } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import Title from './title';
+import Title from "./title";
 
 type Props = { text: string; children?: ReactNode };
 
 const Header: React.FC<Props> = ({ text, children }) => {
-  const theme = useTheme();
-
   const navbar = css({
     display: "inline-flex",
     alignItems: "center",
@@ -32,7 +30,7 @@ const Header: React.FC<Props> = ({ text, children }) => {
     display: "inline-flex",
     width: "50%",
     justifyContent: "flex-end",
-    marginInline: "1em"
+    marginInline: "1em",
   });
 
   return (

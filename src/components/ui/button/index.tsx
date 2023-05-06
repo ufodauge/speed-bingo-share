@@ -1,5 +1,6 @@
-import { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from "react";
-import { SerializedStyles, css, useTheme } from "@emotion/react";
+import React, { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from 'react';
+
+import { css, SerializedStyles, useTheme } from '@emotion/react';
 
 type Props = {
   customProps?: ButtonHTMLAttributes<HTMLButtonElement>;
@@ -11,7 +12,7 @@ type Props = {
   customStyle?: SerializedStyles;
 };
 
-const Button: React.FC<Props> = ({
+const Button: React.FC<Props> = React.memo<Props>(function Button({
   children,
   onClick,
   onRightClick,
@@ -19,7 +20,7 @@ const Button: React.FC<Props> = ({
   outlined,
   ghost,
   customStyle,
-}) => {
+}) {
   const theme = useTheme();
 
   const style = {
@@ -102,6 +103,6 @@ const Button: React.FC<Props> = ({
       {children}
     </button>
   );
-};
+});
 
 export default Button;

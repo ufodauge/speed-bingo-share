@@ -1,20 +1,19 @@
-import assert from "assert";
-import { ChangeEventHandler, useState } from "react";
+import assert from 'assert';
+import { ChangeEventHandler, useState } from 'react';
 
-import Button from "@/components/ui/button";
-import DateInput from "@/components/ui/dateinput";
-import Label from "@/components/ui/label";
-import Selector, { Options } from "@/components/ui/selector";
-import TextInput from "@/components/ui/textInput";
-import { useBingoBoardContext } from "@/contexts/bingoBoard";
-import { useThemeValue } from "@/contexts/theme";
-import { Encode } from "@/lib/encoder";
-import { useRouterPush } from "@/lib/hooks/useRouterPush";
-import { useTaskData } from "@/lib/hooks/useTaskData";
-import { isLayoutName } from "@/types/layout";
-import { CountdownQuery } from "@/types/query/countdown";
-import { MainPageQuery } from "@/types/query/mainpage";
-import { css } from "@emotion/react";
+import Button from '@/components/ui/button';
+import DateInput from '@/components/ui/dateinput';
+import Label from '@/components/ui/label';
+import Selector, { Options } from '@/components/ui/selector';
+import TextInput from '@/components/ui/textInput';
+import { useBingoBoardContext } from '@/contexts/bingoBoard';
+import { useThemeValue } from '@/contexts/theme';
+import { Encode } from '@/lib/encoder';
+import { useRouterPush } from '@/lib/hooks/useRouterPush';
+import { useTaskData } from '@/lib/hooks/useTaskData';
+import { isLayoutName } from '@/types/layout';
+import { CountdownQuery } from '@/types/query/countdown';
+import { css } from '@emotion/react';
 
 const DEFAULT_SEED_DIGITS = 1000000;
 const DEFAULT_MINUTES_OFFSET = 10;

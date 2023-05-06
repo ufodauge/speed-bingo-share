@@ -1,5 +1,6 @@
+import React, { ChangeEventHandler, HTMLInputTypeAttribute } from "react";
+
 import { css, useTheme } from "@emotion/react";
-import { ChangeEventHandler, HTMLInputTypeAttribute } from "react";
 
 type Props = {
   type: HTMLInputTypeAttribute;

@@ -32,7 +32,7 @@ const Home: React.FC<Props> = () => {
 
           return {
             index: Number(v),
-            difficulty: 0,
+            difficulty: result ? result.difficulty : 0,
             text: result ? result.contents[query.lang] : "Error!",
             filter: 0,
             lineTypes: [],

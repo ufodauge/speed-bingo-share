@@ -1,9 +1,10 @@
-import { css, useTheme } from "@emotion/react";
-import { ReactNode } from "react";
+import React, { ReactNode } from 'react';
+
+import { css, useTheme } from '@emotion/react';
 
 type Props = { children: ReactNode };
 
-const Label: React.FC<Props> = ({ children }) => {
+const Label: React.FC<Props> = React.memo(function Label({ children })  {
   const theme = useTheme();
 
   const style = {
@@ -25,6 +26,6 @@ const Label: React.FC<Props> = ({ children }) => {
       <span css={style.text}>{children}</span>
     </label>
   );
-};
+});
 
 export default Label;
