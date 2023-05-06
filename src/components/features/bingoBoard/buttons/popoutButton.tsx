@@ -24,7 +24,7 @@ export default function PopoutButton({ lineType }: Props) {
 
   const targetTasks = getTargetTasksByLineType(tasks, lineType);
 
-  const url = `/${process.env.NEXT_PUBLIC_REPONAME}/popout`;
+  const url = `${window.location.origin}/popout`;
   const params: PopoutQuery = {
     tasks: targetTasks.map((v) => v.index).join(";"),
     header: lineType,
