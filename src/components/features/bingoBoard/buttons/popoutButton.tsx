@@ -8,6 +8,7 @@ import { getTargetTasksByLineType } from "@/lib/utils/getTargetTasksByLineType";
 import { LineType } from "@/types/lineType";
 import { PopoutQuery } from "@/types/query/popout";
 import { css, useTheme } from "@emotion/react";
+import { useTaskData } from "@/lib/hooks/useTaskData";
 
 type Props = {
   lineType: LineType;
@@ -24,7 +25,9 @@ export default function PopoutButton({ lineType }: Props) {
 
   const targetTasks = getTargetTasksByLineType(tasks, lineType);
 
-  const url = "/speed-bingo-template/popout";
+  const { repoName } = useTaskData();
+
+  const url = `/${repoName}/popout`;
   const params: PopoutQuery = {
     tasks: targetTasks.map((v) => v.index).join(";"),
     header: lineType,

@@ -15,4 +15,6 @@
 4. git push
 
 
+## `data.json`'s configuration
 
+later

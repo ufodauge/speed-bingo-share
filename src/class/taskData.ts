@@ -1,6 +1,7 @@
 import { Tracker } from "@/types/tracker";
 
 export class TaskData {
+  readonly repoName: string;
   readonly title: string;
   readonly size: number;
   readonly lang: string[];
@@ -18,6 +19,7 @@ export class TaskData {
   }[];
 
   constructor(data: any) {
+    this.repoName = data.repoName ?? "";
     this.title = data.title ?? "";
     this.size = Math.floor(data.size ?? 5);
     this.lang = data.lang ?? ["en"];
