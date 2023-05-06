@@ -17,7 +17,7 @@ const Toggler: React.FC<Props> = ({ icons }) => {
         opacity: togglers[i] ? "" : "50%",
         filter: togglers[i] ? "" : "grayscale(1)",
         transitionDuration: ".15s",
-        transitionTimingFunction: "ease-out"
+        transitionTimingFunction: "ease-out",
       }),
       image: css({
         width: "1.5em",
@@ -25,23 +25,28 @@ const Toggler: React.FC<Props> = ({ icons }) => {
         margin: ".375em",
       }),
     };
-    const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    const onClick: MouseEventHandler<HTMLDivElement> = (e) => {
       e.stopPropagation();
       toggleByIndex(i);
     };
 
     return (
-      <button key={i} type="button" css={style.base} onClick={onClick}>
+      <div key={i} css={style.base} onClick={onClick}>
         <img
           src={icon === "" ? "/button.png" : icon}
           alt="icon"
           css={style.image}
         />
-      </button>
+      </div>
     );
   });
 
-  return <div>{buttons}</div>;
+  const style = css({
+    display: "flex",
+    flexDirection: "row",
+  });
+
+  return <div css={style}>{buttons}</div>;
 };
 
 export default Toggler;

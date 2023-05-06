@@ -84,6 +84,7 @@ export default function TaskButton({ lineTypes, text }: Props) {
         animationName: kf,
         animationDuration: "1s",
         zIndex: "10",
+        // height: "fit-content",
       },
     },
     targetedLine !== undefined && lineTypes.includes(targetedLine)

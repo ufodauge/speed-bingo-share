@@ -1,20 +1,20 @@
-import assert from 'assert';
-import { ChangeEventHandler, useState } from 'react';
+import assert from "assert";
+import { ChangeEventHandler, useState } from "react";
 
-import Button from '@/components/ui/button';
-import DateInput from '@/components/ui/dateinput';
-import Label from '@/components/ui/label';
-import Selector, { Options } from '@/components/ui/selector';
-import TextInput from '@/components/ui/textInput';
-import { useBingoBoardContext } from '@/contexts/bingoBoard';
-import { useThemeValue } from '@/contexts/theme';
-import { Encode } from '@/lib/encoder';
-import { useRouterPush } from '@/lib/hooks/useRouterPush';
-import { useTaskData } from '@/lib/hooks/useTaskData';
-import { isLayoutName } from '@/types/layout';
-import { CountdownQuery } from '@/types/query/countdown';
-import { MainPageQuery } from '@/types/query/mainpage';
-import { css } from '@emotion/react';
+import Button from "@/components/ui/button";
+import DateInput from "@/components/ui/dateinput";
+import Label from "@/components/ui/label";
+import Selector, { Options } from "@/components/ui/selector";
+import TextInput from "@/components/ui/textInput";
+import { useBingoBoardContext } from "@/contexts/bingoBoard";
+import { useThemeValue } from "@/contexts/theme";
+import { Encode } from "@/lib/encoder";
+import { useRouterPush } from "@/lib/hooks/useRouterPush";
+import { useTaskData } from "@/lib/hooks/useTaskData";
+import { isLayoutName } from "@/types/layout";
+import { CountdownQuery } from "@/types/query/countdown";
+import { MainPageQuery } from "@/types/query/mainpage";
+import { css } from "@emotion/react";
 
 const DEFAULT_SEED_DIGITS = 1000000;
 const DEFAULT_MINUTES_OFFSET = 10;
@@ -39,23 +39,22 @@ const DashBoard: React.FC<Props> = () => {
     return { text: v, value: v };
   });
 
-  const [getMainPageQuery, updateMainPageQueryQuery] =
-    useRouterPush<MainPageQuery>();
+  const [getMainPageQuery, updateMainPageQueryQuery] = useRouterPush();
   const randomizeClicked = () => {
     const s = Math.floor(Math.random() * DEFAULT_SEED_DIGITS);
 
     setSeed(s);
     updateTasks(s, lang);
 
-    updateMainPageQueryQuery(
-      "/",
-      {
-        seed: s,
-        lang,
-        theme: themeName,
-      },
-      true
-    );
+    const [pathname, query] = getMainPageQuery();
+    const newQuery = {
+      ...query,
+      seed: s,
+      lang,
+      theme: themeName,
+    };
+
+    updateMainPageQueryQuery(pathname, newQuery, true);
   };
   const updateClicked = () => {
     updateTasks(seed, lang);
@@ -76,12 +75,18 @@ const DashBoard: React.FC<Props> = () => {
   const [getCountDownQuery, updateCountDownQuery] =
     useRouterPush<CountdownQuery>();
   const releaseClicked = () => {
-    updateCountDownQuery("/countdown", {
+    const [_, query] = getCountDownQuery()
+
+    assert(typeof query.gist === "string" || typeof query.gist === "undefined");
+
+    const newQuery: CountdownQuery = {
       seed: Encode(`${seed}`),
       release: Encode(`${releaseTime}`),
       lang,
       theme: themeName,
-    });
+      gist: query.gist
+    };
+    updateCountDownQuery("/countdown", newQuery);
   };
   const onReleaseTimeChanged: ChangeEventHandler<HTMLInputElement> = (v) =>
     setReleaseTime(
@@ -108,9 +113,10 @@ const DashBoard: React.FC<Props> = () => {
   const style = {
     base: css({
       display: "grid",
-      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+      gridTemplateColumns: "repeat(2, 1fr)",
       gridTemplateRows: "repeat(6, 3rem)",
       gap: "0.75rem",
+      width: "100%",
       transitionDuration: ".2s",
       transitionTimingFunction: "ease-in-out",
     }),
@@ -132,7 +138,11 @@ const DashBoard: React.FC<Props> = () => {
       <TextInput type="number" value={seed} onChange={onSetSeed} />
 
       <Label>Language</Label>
-      <Selector options={languageOptions} onChange={onSetLanguage} />
+      <Selector
+        options={languageOptions}
+        onChange={onSetLanguage}
+        value={lang}
+      />
 
       <Label>Layout</Label>
       <Selector options={layoutOptions} onChange={onSetLayout} />

@@ -44,6 +44,7 @@ const Counter: React.FC<Props> = ({ max, init, icon }) => {
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
+      height: "2em",
     }),
     textSub: css({
       color: theme.neutral,

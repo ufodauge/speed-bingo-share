@@ -11,7 +11,7 @@ type Props = {
 const TextInput: React.FC<Props> = ({ placeholder, value, onChange, type }) => {
   const theme = useTheme();
   const style = css({
-    width: "100%",
+    width: "-webkit-fill-available",
     backgroundColor: theme.baseVariant,
     color: theme.baseContent,
     borderColor: theme.baseVariant,

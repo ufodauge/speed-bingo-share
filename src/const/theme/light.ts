@@ -19,7 +19,7 @@ export const LightTheme: Theme = {
   accentContent: "#ffffff",
   neutralContent: "#ffffff",
 
-  highlightColor1: "#f5f5f5",
+  highlightColor1: "#f1f1f1",
   highlightColor2: "#67dff7",
   highlightColor3: "#e6a5f3",
   highlightColor4: "#f09c7b",

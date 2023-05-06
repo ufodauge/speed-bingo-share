@@ -24,9 +24,10 @@ const isOption = (v: any): v is Option =>
 type Props = {
   options: Options;
   onChange?: ChangeEventHandler<HTMLSelectElement>;
+  value?: string;
 };
 
-const Selector: React.FC<Props> = ({ options, onChange }) => {
+const Selector: React.FC<Props> = ({ options, onChange, value }) => {
   const theme = useTheme();
 
   const style = css({
@@ -42,7 +43,7 @@ const Selector: React.FC<Props> = ({ options, onChange }) => {
   });
 
   return (
-    <select css={style} onChange={onChange}>
+    <select css={style} onChange={onChange} defaultValue={value}>
       {options.map((v, i) => {
         if (isOption(v)) {
           return (

@@ -1,13 +1,12 @@
-import { taskData } from "@/const/TaskData";
 import { getLineTypesByIndex } from "@/lib/getLineTypeByIndex";
 import { Task } from "@/types/task";
 
 import MagicSquare from "./MagicSquare";
 import TaskList from "./TaskList";
+import { TaskData } from "./taskData";
 
-const DISPLAY_TASKS = taskData.size ** 2;
-
-export default function TaskGenerator(seed: number, lang: string): Task[] {
+export default function TaskGenerator(taskData: TaskData, seed: number, lang: string): Task[] {
+  const DISPLAY_TASKS = taskData.size ** 2;
   const magicSquare = new MagicSquare(taskData.size, seed);
   const taskList = new TaskList(taskData.data, lang);
 
@@ -23,10 +22,10 @@ export default function TaskGenerator(seed: number, lang: string): Task[] {
   });
 
   // generate tasks
-  const chosenTasks: Task[] = tasks.map((task, i) => {
+  const result: Task[] = tasks.map((task, i) => {
     task.lineTypes = getLineTypesByIndex(i);
     return task;
   });
 
-  return chosenTasks;
+  return result;
 }

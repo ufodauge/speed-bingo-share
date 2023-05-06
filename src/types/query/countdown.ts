@@ -5,4 +5,5 @@ export type CountdownQuery = {
   release: string;
   lang: string;
   theme: ThemeName;
+  gist?: string;
 };

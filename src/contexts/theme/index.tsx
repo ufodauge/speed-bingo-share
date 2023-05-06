@@ -71,6 +71,8 @@ const ThemeWrapper: React.FC<Props> = ({ children }) => {
     backgroundColor: theme.base,
     transitionDuration: ".2s",
     transitionTimingFunction: "ease-in-out",
+    minWidth: "100%",
+    minHeight: "100vh",
   });
 
   return (

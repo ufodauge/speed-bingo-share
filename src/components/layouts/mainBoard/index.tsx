@@ -6,11 +6,10 @@ type Props = {};
 
 const MainBoard: React.FC<Props> = () => {
   const style = css({
-    display: "grid",
-    gridAutoRows: "max",
-    gridTemplateColumns: "repeat(1, minmax(0, 1fr))",
-    gap: "0.75rem",
-    width: "600px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "1em",
+    width: "36em",
     alignItems: "baseline",
     padding: "2rem",
   });

@@ -22,5 +22,10 @@ export const DefaultTheme: Theme = {
   highlightColor3: "#cf2ba8",
   highlightColor4: "#f06f3c",
 
+  highlightColor1Variant: "#313348",
+  highlightColor2Variant: "#47c5df",
+  highlightColor3Variant: "#bd349d",
+  highlightColor4Variant: "#dd6d40",
+
   highlightContent: "#ffffff",
 };

@@ -20,9 +20,6 @@ export default class MagicSquare {
    */
   private checkList: { [key: string]: number };
 
-  /**
-   *
-   */
   private random: Random;
 
   constructor(size: number, seed: number) {
@@ -66,8 +63,8 @@ export default class MagicSquare {
   };
 
   private generateOddMS = (): number[] => {
-    const muls = [...Array<number>(this.size)].map((_, i) => this.size * i);
-    const mods = [...Array<number>(this.size)].map((_, i) => i);
+    const muls = [...Array(this.size)].map((_, i) => this.size * i);
+    const mods = [...Array(this.size)].map((_, i) => i);
 
     this.shuffleArray(muls);
     this.shuffleArray(mods);
@@ -181,28 +178,28 @@ export default class MagicSquare {
       tlbr += ms2d[i][i];
       bltr += ms2d[ms2d.length - i - 1][i];
 
-      if (a === targetValue) {
+      if (a !== targetValue) {
         console.error(
-          `row${i}, expect ${targetValue}, but the sum of the row ${a}`
+          `row${i + 1}, expect ${targetValue}, but the sum of the row ${a}`
         );
         return false;
       }
-      if (b === targetValue) {
+      if (b !== targetValue) {
         console.error(
-          `col${i}, expect ${targetValue}, but the sum of the row ${b}`
+          `col${i + 1}, expect ${targetValue}, but the sum of the row ${b}`
         );
         return false;
       }
     }
 
-    if (tlbr === targetValue) {
+    if (tlbr !== targetValue) {
       console.error(
         `tlbr, expect ${targetValue}, but the sum of the row ${tlbr}`
       );
       return false;
     }
 
-    if (bltr === targetValue) {
+    if (bltr !== targetValue) {
       console.error(
         `bltr, expect ${targetValue}, but the sum of the row ${bltr}`
       );

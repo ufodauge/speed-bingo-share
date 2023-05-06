@@ -1,19 +1,17 @@
-import { createContext, FC, ReactNode, useContext, useState } from 'react';
+import { createContext, FC, ReactNode, useContext, useState } from "react";
 
-import {
-    UnimplementedFunctionCalledException
-} from '@/class/exception/unimplementedFunctionCalled';
-import TaskGenerator from '@/class/TaskGenerator';
-import { DefaultLanguage } from '@/const/language';
-import { taskData } from '@/const/TaskData';
-import { useQuery } from '@/lib/hooks/useQuery';
-import { useRouterPush } from '@/lib/hooks/useRouterPush';
-import { LayoutName } from '@/types/layout';
-import { LineType } from '@/types/lineType';
-import { MainPageQuery } from '@/types/query/mainpage';
-import { Task } from '@/types/task';
+import { UnimplementedFunctionCalledException } from "@/class/exception/unimplementedFunctionCalled";
+import TaskGenerator from "@/class/TaskGenerator";
+import { DefaultLanguage } from "@/const/language";
+import { useQuery } from "@/lib/hooks/useQuery";
+import { useRouterPush } from "@/lib/hooks/useRouterPush";
+import { useTaskData } from "@/lib/hooks/useTaskData";
+import { LayoutName } from "@/types/layout";
+import { LineType } from "@/types/lineType";
+import { MainPageQuery } from "@/types/query/mainpage";
+import { Task } from "@/types/task";
 
-import { useThemeValue } from '../theme';
+import { useThemeValue } from "../theme";
 
 type BoardValuesProps = {
   seed: number;
@@ -34,7 +32,7 @@ type BoardActionsProps = {
 const BoardValuesContext = createContext<BoardValuesProps>({
   seed: 0,
   lang: "en",
-  tasks: TaskGenerator(0, "en"),
+  tasks: [],
   layout: "vertical",
 });
 
@@ -63,20 +61,22 @@ type Props = {
 const DEFAULT_SEED_DIGITS = 1000000;
 
 const BingoBoardWrapper: FC<Props> = ({ children }: Props) => {
+  const taskData = useTaskData();
+
   const [seed, setSeed] = useState(0);
   const [lang, setLanguage] = useState("en");
-  const [tasks, setTasks] = useState(TaskGenerator(0, "en"));
+  const [tasks, setTasks] = useState(TaskGenerator(taskData, 0, "en"));
   const [layout, setLayout] = useState<LayoutName>("vertical");
 
   const updateTasks = (seed: number, lang: string) =>
-    setTasks(TaskGenerator(seed, lang));
+    setTasks(TaskGenerator(taskData, seed, lang));
 
   const [targetedLine, setTargetedLine] = useState<LineType | undefined>();
   const updateTargetedLine = (lineType?: LineType) => {
     setTargetedLine(lineType);
   };
 
-  const [_, updateQuery] = useRouterPush<MainPageQuery>();
+  const [getQuery, updateQuery] = useRouterPush<MainPageQuery>();
   const { themeName } = useThemeValue();
 
   useQuery(
@@ -92,15 +92,16 @@ const BingoBoardWrapper: FC<Props> = ({ children }: Props) => {
 
       updateTasks(_seed, _lang);
 
-      updateQuery(
-        "/",
-        {
-          seed: _seed,
-          lang: _lang,
-          theme: themeName,
-        },
-        true
-      );
+      const [pathname, query] = getQuery();
+
+      const newQuery = {
+        ...query,
+        seed: _seed,
+        lang: _lang,
+        theme: themeName,
+      };
+
+      updateQuery(pathname, newQuery, true);
     },
     {
       seed: "",
@@ -121,7 +122,7 @@ const BingoBoardWrapper: FC<Props> = ({ children }: Props) => {
     updateTasks,
     setLanguage,
     updateTargetedLine,
-    setLayout
+    setLayout,
   };
 
   return (

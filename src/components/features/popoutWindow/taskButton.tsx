@@ -114,6 +114,10 @@ const TaskButton: React.FC<Props> = ({ task }) => {
       fontWeight: "bold",
       fontSize: "1.2em",
     }),
+    // trackers: css({
+    //   display: "flex",
+    //   flexDirection: "col",
+    // }),
   };
 
   return (
@@ -123,8 +127,7 @@ const TaskButton: React.FC<Props> = ({ task }) => {
       onContextMenu={toggleHighlightTypeIndex}
     >
       <div css={style.taskText}>{task.text}</div>
-      {/* <div>{trackerElements}</div> */}
-      {trackerElements}
+      <div>{trackerElements}</div>
     </div>
   );
 };

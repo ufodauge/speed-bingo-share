@@ -6,6 +6,7 @@ import { useQuery } from "@/lib/hooks/useQuery";
 import { useRouterPush } from "@/lib/hooks/useRouterPush";
 import { MainPageQuery } from "@/types/query/mainpage";
 import { isThemeName } from "@/types/theme/theme";
+import assert from "assert";
 
 type Props = {};
 
@@ -20,11 +21,17 @@ const Countdown: React.FC<Props> = () => {
 
       const targetTime = new Date(Number(releaseTime)).getTime();
 
+      const [_, query] = getQuery();
+
       const timer = setInterval(() => {
         const now = new Date().getTime();
         const distance = targetTime - now;
 
         const themeName = isThemeName(v.theme) ? v.theme : "light";
+
+        assert(
+          typeof query.gist === "string" || typeof query.gist === "undefined"
+        );
 
         if (distance <= 0) {
           clearInterval(timer);
@@ -32,6 +39,7 @@ const Countdown: React.FC<Props> = () => {
             seed: Number(seed),
             lang: v.lang,
             theme: themeName,
+            gist: query.gist,
           });
         } else {
           setCount(distance);

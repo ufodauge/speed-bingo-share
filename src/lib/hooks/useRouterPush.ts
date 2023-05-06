@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 import { ParsedUrlQuery, ParsedUrlQueryInput } from "querystring";
 
 export const useRouterPush = <
-  T extends string | ParsedUrlQueryInput | null | undefined
+  // FROM extends ParsedUrlQuery,
+  TO extends string | ParsedUrlQueryInput | null | undefined
 >(): [
   () => [string, ParsedUrlQuery],
-  (pathname: string, query: T, shallow?: boolean) => void
+  (pathname: string, query: TO, shallow?: boolean) => void
 ] => {
   const router = useRouter();
 
@@ -16,7 +17,7 @@ export const useRouterPush = <
 
       return [router.pathname, router.query];
     },
-    (pathname: string, query: T, shallow?: boolean) => {
+    (pathname: string, query: TO, shallow?: boolean) => {
       if (!router.isReady) throw new UnreadyRouterException();
       router.push({ pathname, query }, undefined, { shallow });
     },

@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from "react";
-import { SerializedStyles, css, keyframes, useTheme } from "@emotion/react";
+import { SerializedStyles, css, useTheme } from "@emotion/react";
 
 type Props = {
   customProps?: ButtonHTMLAttributes<HTMLButtonElement>;
@@ -25,6 +25,7 @@ const Button: React.FC<Props> = ({
   const style = {
     default: css({
       padding: 0,
+      border: theme.base,
       borderRadius: "10px",
       cursor: "pointer",
       display: "inline-flex",
